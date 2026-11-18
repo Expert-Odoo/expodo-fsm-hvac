@@ -1,0 +1,20 @@
+{
+    "name": "HVAC & Air Conditioning Field Service",
+    "summary": "Field service for HVAC, air conditioning and refrigeration: equipment, refrigerant and F-Gas tracking, service and repair, invoicing",
+    "description": "Turn Odoo Community into a service tool for HVAC, air conditioning and refrigeration companies. Log each unit, its brand, serial number, refrigerant type and charge, follow the job from install or breakdown to invoice, keep an F-Gas record of the refrigerant handled, and let customers track their service online.",
+    "version": "17.0.1.0.0",
+    "category": "Services/Field Service",
+    "license": "LGPL-3",
+    "author": "Expodo",
+    "website": "https://expodo.fr",
+    "support": "support@expodo.fr",
+    "images": ["static/description/banner.png", "static/description/icon.png"],
+    "depends": ["expodo_fieldservice"],
+    "data": [
+        "data/hvac_types.xml",
+        "views/hvac_views.xml",
+    ],
+    "application": True,
+    "installable": True,
+    "auto_install": False,
+}
