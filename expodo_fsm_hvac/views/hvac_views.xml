@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Form: add an Equipment section and an F-Gas / Refrigerant section -->
+    <record id="view_fsm_order_form_hvac" model="ir.ui.view">
+        <field name="name">expodo.fsm.order.form.hvac</field>
+        <field name="model">expodo.fsm.order</field>
+        <field name="inherit_id" ref="expodo_fieldservice.view_fsm_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="before">
+                <group string="Equipment" name="equipment">
+                    <group>
+                        <field name="equipment_kind"/>
+                        <field name="equipment_brand"/>
+                        <field name="equipment_model"/>
+                        <field name="serial_number"/>
+                    </group>
+                    <group>
+                        <field name="unit_location"/>
+                        <field name="install_date"/>
+                        <field name="last_service_date"/>
+                    </group>
+                </group>
+                <group string="Refrigerant / F-Gas" name="refrigerant">
+                    <group>
+                        <field name="refrigerant_type"/>
+                        <field name="refrigerant_charge_kg"/>
+                        <field name="leak_test_done"/>
+                    </group>
+                    <group>
+                        <field name="refrigerant_added_kg"/>
+                        <field name="refrigerant_recovered_kg"/>
+                    </group>
+                </group>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- List: add equipment columns -->
+    <record id="view_fsm_order_list_hvac" model="ir.ui.view">
+        <field name="name">expodo.fsm.order.list.hvac</field>
+        <field name="model">expodo.fsm.order</field>
+        <field name="inherit_id" ref="expodo_fieldservice.view_fsm_order_list"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='partner_id']" position="after">
+                <field name="equipment_brand" optional="show"/>
+                <field name="refrigerant_type" optional="show"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Kanban: show brand and refrigerant on the card -->
+    <record id="view_fsm_order_kanban_hvac" model="ir.ui.view">
+        <field name="name">expodo.fsm.order.kanban.hvac</field>
+        <field name="model">expodo.fsm.order</field>
+        <field name="inherit_id" ref="expodo_fieldservice.view_fsm_order_kanban"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='fsm_type_id']" position="after">
+                <div t-if="record.equipment_brand.raw_value" class="mt-1">
+                    <span class="badge text-bg-secondary"><field name="equipment_brand"/></span>
+                    <span t-if="record.refrigerant_type.raw_value" class="badge text-bg-info ms-1">
+                        <field name="refrigerant_type"/>
+                    </span>
+                </div>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- HVAC app menu -->
+    <menuitem id="menu_root_hvac" name="HVAC Field Service" sequence="49"
+              groups="expodo_fieldservice.group_fsm_technician"/>
+    <menuitem id="menu_hvac_orders" name="Service Orders"
+              parent="menu_root_hvac" action="expodo_fieldservice.action_fsm_order" sequence="10"/>
+    <menuitem id="menu_hvac_config" name="Configuration"
+              parent="menu_root_hvac" sequence="90"
+              groups="expodo_fieldservice.group_fsm_manager"/>
+    <menuitem id="menu_hvac_types" name="Intervention Types"
+              parent="menu_hvac_config" action="expodo_fieldservice.action_fsm_type" sequence="10"/>
+    <menuitem id="menu_hvac_stages" name="Stages"
+              parent="menu_hvac_config" action="expodo_fieldservice.action_fsm_stage" sequence="20"/>
+
+</odoo>
